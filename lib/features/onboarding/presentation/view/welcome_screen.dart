@@ -2,7 +2,7 @@
   import 'package:news/core/constants/image_assets.dart';
   import 'package:news/core/theme/app_colors.dart';
   import 'package:news/core/widgets/custon_bottom.dart';
-  import 'package:news/features/onboarding/view/mapscreen.dart';
+  import 'package:news/features/onboarding/presentation/view/mapscreen.dart';
 
   class WelcomeScreen extends StatelessWidget {
     const WelcomeScreen({super.key});

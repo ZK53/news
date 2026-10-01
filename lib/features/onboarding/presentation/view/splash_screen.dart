@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:news/core/constants/image_assets.dart';
 import 'package:news/core/theme/app_colors.dart';
-import 'package:news/features/onboarding/view/welcome_screen.dart';
+import 'package:news/features/onboarding/presentation/view/welcome_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
