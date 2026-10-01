@@ -38,6 +38,7 @@ dependencies:
   dio: ^5.11.1
   google_maps_flutter: ^2.18.2
   flutter_screenutil: ^5.9.3
+  shared_preferences: ^2.5.5
 
 dev_dependencies:
   flutter_test:

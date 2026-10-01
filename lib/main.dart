@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:news/core/cache/cache_helper.dart';
 import 'package:news/core/theme/app_colors.dart';
 import 'package:news/features/onboarding/view/mapscreen.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await CacheHelper.init();
   runApp(ScreenUtilInit(designSize: Size(430, 932), child: KhabarApp()));
 }
 
