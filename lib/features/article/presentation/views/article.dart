@@ -1,22 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news/features/article/data/models/article_model.dart';
+import 'package:news/features/book_mark/presentation/cubit/bookmark_cubit/bookmark_cubit.dart';
+import 'package:news/features/book_mark/presentation/cubit/bookmark_cubit/bookmark_state.dart';
 
-class ArticleScreen extends StatefulWidget {
+class ArticleScreen extends StatelessWidget {
   final ArticleModel article;
 
   const ArticleScreen({super.key, required this.article});
 
   @override
-  State<ArticleScreen> createState() => _ArticleScreenState();
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (_) => BookmarkCubit()..getBookmarks(),
+      child: _ArticleView(article: article),
+    );
+  }
 }
 
-class _ArticleScreenState extends State<ArticleScreen> {
-  bool saved = false;
+class _ArticleView extends StatelessWidget {
+  final ArticleModel article;
+
+  const _ArticleView({required this.article});
 
   @override
   Widget build(BuildContext context) {
-    final article = widget.article;
-
     final date = article.publishedAt != null
         ? '${article.publishedAt!.day}/${article.publishedAt!.month}/${article.publishedAt!.year}'
         : '';
@@ -72,14 +80,27 @@ class _ArticleScreenState extends State<ArticleScreen> {
 
                       const Spacer(),
 
-                      IconButton(
-                        icon: Icon(
-                          saved ? Icons.bookmark : Icons.bookmark_border,
-                        ),
-                        onPressed: () {
-                          setState(() {
-                            saved = !saved;
-                          });
+                      // Bookmark
+                      BlocBuilder<BookmarkCubit, BookmarkState>(
+                        builder: (context, state) {
+                          bool saved = false;
+
+                          if (state is BookmarkLoadedState) {
+                            saved = state.bookmarks.any(
+                              (item) => item.url == article.url,
+                            );
+                          }
+
+                          return IconButton(
+                            icon: Icon(
+                              saved ? Icons.bookmark : Icons.bookmark_border,
+                            ),
+                            onPressed: () {
+                              context.read<BookmarkCubit>().toggleBookmark(
+                                article,
+                              );
+                            },
+                          );
                         },
                       ),
 
