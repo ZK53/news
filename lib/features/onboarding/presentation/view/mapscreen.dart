@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:news/core/cache/cache_helper.dart';
+import 'package:news/core/cache/cache_keys.dart';
 import 'package:news/core/widgets/custom_search_field.dart';
 import 'package:news/core/widgets/custon_bottom.dart';
-import 'package:news/features/home/view/home_screen.dart';
+import 'package:news/features/home/presentation/view/home_screen.dart';
 import 'package:news/features/onboarding/presentation/cubit/map_cubit/map_cubit.dart';
 import 'package:news/features/onboarding/presentation/cubit/map_cubit/map_state.dart';
 
@@ -71,7 +73,11 @@ class Mapscreen extends StatelessWidget {
                             width: 180,
                             onPressed: () async {
                               await context.read<MapCubit>().confirmLocation();
-
+                              await CacheHelper.setValue(
+                                key: CacheKeys.onboardingCompleted,
+                                value: true,
+                              );
+                              
                               if (!context.mounted) return;
 
                               Navigator.pushReplacement(

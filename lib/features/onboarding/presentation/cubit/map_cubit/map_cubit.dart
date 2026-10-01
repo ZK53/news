@@ -38,6 +38,7 @@ class MapCubit extends Cubit<MapState> {
       final location = (state as MapLocationSelectedState).location;
 
       await _repo.saveLocation(location);
+      await _repo.completeOnboarding();
     } catch (e) {
       emit(MapErrorState(e.toString()));
     }

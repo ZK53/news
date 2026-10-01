@@ -33,4 +33,8 @@ class OnboardingRepo {
 
     return LatLng(latitude as double, longitude as double);
   }
+
+  Future<void> completeOnboarding() async {
+    await CacheHelper.setValue(key: CacheKeys.onboardingCompleted, value: true);
+  }
 }
