@@ -1,4 +1,5 @@
 class CacheKeys {
-  static String longitude = "longitude";
-  static String latitude = "latitude";
+  static final String longitude = "longitude";
+  static final String latitude = "latitude";
+  static final String onboardingCompleted = "onBoardingCompleted";
 }
