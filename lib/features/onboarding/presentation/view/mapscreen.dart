@@ -77,7 +77,7 @@ class Mapscreen extends StatelessWidget {
                                 key: CacheKeys.onboardingCompleted,
                                 value: true,
                               );
-                              
+
                               if (!context.mounted) return;
 
                               Navigator.pushReplacement(
