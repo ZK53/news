@@ -24,16 +24,6 @@ class _SearchResultsView extends StatelessWidget {
 
   const _SearchResultsView({required this.query});
 
-  static const List<String> categories = [
-    'All',
-    'Technology',
-    'Business',
-    'Sports',
-    'Science',
-    'Health',
-    'Entertainment',
-  ];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
