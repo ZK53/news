@@ -57,14 +57,23 @@ class WeatherRepo {
   }
 
   WeatherModel? getCachedWeather() {
-    final cachedData = CacheHelper.getValue(key: CacheKeys.weather);
+    try {
+      final cachedData = CacheHelper.getValue(key: CacheKeys.weather);
 
-    if (cachedData == null) {
+      if (cachedData == null) {
+        return null;
+      }
+
+      final jsonData = jsonDecode(cachedData as String);
+
+      if (jsonData is! Map<String, dynamic>) {
+        return null;
+      }
+
+      return WeatherModel.fromJson(jsonData);
+    } catch (e) {
+      CacheHelper.removeValue(key: CacheKeys.weather);
       return null;
     }
-
-    final jsonData = jsonDecode(cachedData as String);
-
-    return WeatherModel.fromJson(jsonData);
   }
 }

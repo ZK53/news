@@ -16,6 +16,18 @@ import 'package:news/features/weather/presentation/cubit/weather_cubit/weather_s
 class WeatherScreen extends StatelessWidget {
   const WeatherScreen({super.key});
 
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (_) => WeatherCubit()..getWeather(),
+      child: const _WeatherView(),
+    );
+  }
+}
+
+class _WeatherView extends StatelessWidget {
+  const _WeatherView();
+
   void _onNavTap(BuildContext context, int index) {
     if (index == 3) return;
     Widget screen;
