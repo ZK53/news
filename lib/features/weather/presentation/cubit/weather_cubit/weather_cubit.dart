@@ -8,13 +8,24 @@ class WeatherCubit extends Cubit<WeatherState> {
   final WeatherRepo _repo = WeatherRepo();
 
   Future<void> getWeather() async {
-    emit(WeatherLoadingState());
+    final cachedWeather = _repo.getCachedWeather();
+
+    if (cachedWeather != null) {
+      emit(WeatherSuccessState(cachedWeather));
+    }
 
     final result = await _repo.getWeather();
 
     result.fold(
-      (errorMsg) => emit(WeatherErrorState(errorMsg)),
-      (weatherModel) => emit(WeatherSuccessState(weatherModel)),
+      (errorMsg) {
+        if (cachedWeather == null) {
+          emit(WeatherErrorState(errorMsg));
+        }
+      },
+      (weatherModel) {
+        _repo.saveWeather(weatherModel);
+        emit(WeatherSuccessState(weatherModel));
+      },
     );
   }
 }

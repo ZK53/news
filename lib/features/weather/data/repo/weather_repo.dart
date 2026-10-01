@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dartz/dartz.dart';
 import 'package:news/core/cache/cache_helper.dart';
 import 'package:news/core/cache/cache_keys.dart';
@@ -33,5 +35,35 @@ class WeatherRepo {
     } catch (e) {
       return left(_apiHelper.handleException(e));
     }
+  }
+
+  Future<void> saveWeather(WeatherModel weather) async {
+    await CacheHelper.setValue(
+      key: CacheKeys.weather,
+      value: jsonEncode({
+        'cityName': weather.cityName,
+        'country': weather.country,
+        'temperature': weather.temperature,
+        'feelsLike': weather.feelsLike,
+        'mainDescription': weather.mainDescription,
+        'description': weather.description,
+        'icon': weather.icon,
+        'pressure': weather.pressure,
+        'humidity': weather.humidity,
+        'windSpeed': weather.windSpeed,
+      }),
+    );
+  }
+
+  WeatherModel? getCachedWeather() {
+    final cachedData = CacheHelper.getValue(key: CacheKeys.weather);
+
+    if (cachedData == null) {
+      return null;
+    }
+
+    final jsonData = jsonDecode(cachedData as String);
+
+    return WeatherModel.fromJson(jsonData);
   }
 }
