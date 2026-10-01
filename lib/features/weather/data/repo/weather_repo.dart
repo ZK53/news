@@ -10,12 +10,13 @@ import 'package:news/features/weather/data/models/weather_model.dart';
 class WeatherRepo {
   final ApiHelper _apiHelper = ApiHelper();
 
-  Future<Either<String, dynamic>> getWeather() async {
+  Future<Either<String, WeatherModel>> getWeather() async {
     final latitude = CacheHelper.getValue(key: CacheKeys.latitude) as double?;
+
     final longitude = CacheHelper.getValue(key: CacheKeys.longitude) as double?;
 
-    if (longitude == null || latitude == null) {
-      return left("Location not found");
+    if (latitude == null || longitude == null) {
+      return left('Location not found');
     }
 
     try {
@@ -24,12 +25,12 @@ class WeatherRepo {
         queryParams: {
           'lat': latitude,
           'lon': longitude,
-          'appid': "39ef56aa87e0f9d833e66cd9111de959",
-          'units': "metric",
+          'appid': '39ef56aa87e0f9d833e66cd9111de959',
+          'units': 'metric',
         },
       );
 
-      var jsonResponse = response.data as Map<String, dynamic>;
+      final jsonResponse = response.data as Map<String, dynamic>;
 
       return right(WeatherModel.fromJson(jsonResponse));
     } catch (e) {
