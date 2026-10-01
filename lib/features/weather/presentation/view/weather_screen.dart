@@ -5,10 +5,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:news/core/constants/image_assets.dart';
 import 'package:news/core/helper/date_time_helper.dart';
 import 'package:news/core/theme/app_colors.dart';
-import 'package:news/core/widgets/app_bottom_nav.dart';
-import 'package:news/features/book_mark/presentation/view/bookmark_screen.dart';
-import 'package:news/features/explore/presentation/view/explore_screen.dart';
-import 'package:news/features/home/presentation/view/home_screen.dart';
 import 'package:news/features/onboarding/presentation/cubit/map_cubit/map_cubit.dart';
 import 'package:news/features/onboarding/presentation/view/mapscreen.dart';
 import 'package:news/features/weather/presentation/cubit/weather_cubit/weather_cubit.dart';
@@ -28,25 +24,6 @@ class WeatherScreen extends StatelessWidget {
 
 class _WeatherView extends StatelessWidget {
   const _WeatherView();
-
-  void _onNavTap(BuildContext context, int index) {
-    if (index == 3) return;
-    Widget screen;
-    switch (index) {
-      case 0:
-        screen = const HomeScreen();
-        break;
-      case 1:
-        screen = const ExploreScreen();
-        break;
-      default:
-        screen = const BookmarkScreen();
-    }
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (_) => screen),
-    );
-  }
 
   Widget _statCard(String label, String value, String paths) {
     return Expanded(
@@ -281,10 +258,6 @@ class _WeatherView extends StatelessWidget {
                   ),
                 ],
               ),
-            ),
-            bottomNavigationBar: AppBottomNav(
-              currentIndex: 3,
-              onTap: (i) => _onNavTap(context, i),
             ),
           );
         }

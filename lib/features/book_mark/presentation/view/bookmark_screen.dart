@@ -1,55 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news/core/theme/app_colors.dart';
-import 'package:news/core/widgets/app_bottom_nav.dart';
 import 'package:news/features/article/data/models/article_model.dart';
 import 'package:news/features/article/presentation/views/article.dart';
 import 'package:news/features/book_mark/presentation/cubit/bookmark_cubit/bookmark_cubit.dart';
 import 'package:news/features/book_mark/presentation/cubit/bookmark_cubit/bookmark_state.dart';
-import 'package:news/features/explore/presentation/view/explore_screen.dart';
-import 'package:news/features/home/presentation/view/home_screen.dart';
-import 'package:news/features/weather/presentation/view/weather_screen.dart';
 
 class BookmarkScreen extends StatelessWidget {
   const BookmarkScreen({super.key});
-
-  void _onNavTap(BuildContext context, int index) {
-    if (index == 2) return;
-
-    Widget screen;
-
-    switch (index) {
-      case 0:
-        screen = const HomeScreen();
-        break;
-
-      case 1:
-        screen = const ExploreScreen();
-        break;
-
-      default:
-        screen = const WeatherScreen();
-    }
-
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (_) => screen),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => BookmarkCubit()..getBookmarks(),
-      child: _BookmarkView(onNavTap: _onNavTap),
+      child: _BookmarkView(),
     );
   }
 }
 
 class _BookmarkView extends StatelessWidget {
-  final void Function(BuildContext, int) onNavTap;
-
-  const _BookmarkView({required this.onNavTap});
+  const _BookmarkView();
 
   @override
   Widget build(BuildContext context) {
@@ -134,10 +104,6 @@ class _BookmarkView extends StatelessWidget {
             ),
           ),
         ],
-      ),
-      bottomNavigationBar: AppBottomNav(
-        currentIndex: 2,
-        onTap: (index) => onNavTap(context, index),
       ),
     );
   }

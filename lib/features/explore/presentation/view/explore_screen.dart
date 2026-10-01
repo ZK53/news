@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:news/core/widgets/app_bottom_nav.dart';
 import 'package:news/features/article/data/models/article_model.dart';
 import 'package:news/features/article/presentation/cubit/article_cubit.dart';
 import 'package:news/features/article/presentation/cubit/article_state.dart';
 import 'package:news/features/article/presentation/views/article.dart';
-import 'package:news/features/book_mark/presentation/view/bookmark_screen.dart';
-import 'package:news/features/home/presentation/view/home_screen.dart';
-import 'package:news/features/weather/presentation/view/weather_screen.dart';
 
 import 'search_screen.dart';
 
@@ -41,30 +37,6 @@ class _ExploreViewState extends State<_ExploreView> {
   ];
 
   String _selected = 'Technology';
-
-  void _onNavTap(int index) {
-    if (index == 1) return;
-
-    Widget screen;
-
-    switch (index) {
-      case 0:
-        screen = const HomeScreen();
-        break;
-
-      case 2:
-        screen = const BookmarkScreen();
-        break;
-
-      default:
-        screen = const WeatherScreen();
-    }
-
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (_) => screen),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -223,10 +195,6 @@ class _ExploreViewState extends State<_ExploreView> {
                         ),
                 ),
               ],
-            ),
-            bottomNavigationBar: AppBottomNav(
-              currentIndex: 1,
-              onTap: _onNavTap,
             ),
           );
         }

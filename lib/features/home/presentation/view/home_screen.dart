@@ -2,14 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news/core/helper/date_time_helper.dart';
 import 'package:news/core/theme/app_colors.dart';
-import 'package:news/core/widgets/app_bottom_nav.dart';
 import 'package:news/features/article/data/models/article_model.dart';
 import 'package:news/features/article/presentation/views/article.dart';
-import 'package:news/features/book_mark/presentation/view/bookmark_screen.dart';
-import 'package:news/features/explore/presentation/view/explore_screen.dart';
 import 'package:news/features/home/presentation/cubit/home_cubit.dart';
 import 'package:news/features/home/presentation/cubit/home_state.dart';
-import 'package:news/features/weather/presentation/view/weather_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -25,30 +21,6 @@ class HomeScreen extends StatelessWidget {
 
 class _HomeView extends StatelessWidget {
   const _HomeView();
-
-  void onNavTap(int index, BuildContext context) {
-    if (index == 0) return;
-
-    Widget screen;
-
-    switch (index) {
-      case 1:
-        screen = ExploreScreen();
-        break;
-
-      case 2:
-        screen = BookmarkScreen();
-        break;
-
-      default:
-        screen = WeatherScreen();
-    }
-
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (_) => screen),
-    );
-  }
 
   void openArticle(BuildContext context, ArticleModel article) {
     Navigator.push(
@@ -70,7 +42,7 @@ class _HomeView extends StatelessWidget {
         }
 
         if (state is HomeSuccessState) {
-          return _homeBuilder(context, state, openArticle, onNavTap);
+          return _homeBuilder(context, state, openArticle);
         }
 
         return Scaffold(body: Center(child: Text("Somthing Happened")));
@@ -83,7 +55,6 @@ Widget _homeBuilder(
   BuildContext context,
   HomeSuccessState state,
   Function openArticle,
-  Function onNavTap,
 ) {
   return Scaffold(
     backgroundColor: Colors.white,
@@ -274,13 +245,6 @@ Widget _homeBuilder(
           ),
         ),
       ],
-    ),
-
-    bottomNavigationBar: AppBottomNav(
-      currentIndex: 0,
-      onTap: (index) {
-        onNavTap(index, context);
-      },
     ),
   );
 }

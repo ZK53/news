@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:news/core/constants/image_assets.dart';
 import 'package:news/core/theme/app_colors.dart';
-import 'package:news/features/home/presentation/view/home_screen.dart';
+import 'package:news/core/widgets/main_screen.dart';
 import 'package:news/features/onboarding/presentation/cubit/splash_cubit/splach_state.dart';
 import 'package:news/features/onboarding/presentation/cubit/splash_cubit/splash_cubit.dart';
 import 'package:news/features/onboarding/presentation/view/welcome_screen.dart';
@@ -18,7 +18,7 @@ class SplashScreen extends StatelessWidget {
         if (state is SplashShowHomeState) {
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (_) => const HomeScreen()),
+            MaterialPageRoute(builder: (_) => const MainScreen()),
           );
         }
 
