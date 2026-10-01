@@ -78,6 +78,30 @@ class _HomeView extends StatelessWidget {
   }
 }
 
+String _getFormattedDate() {
+  final now = DateTime.now();
+
+  const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+
+  const months = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
+  ];
+
+  return '${days[now.weekday - 1]} ${now.day} '
+      '${months[now.month - 1]}, ${now.year}';
+}
+
 Widget _homeBuilder(
   BuildContext context,
   HomeSuccessState state,
@@ -116,8 +140,7 @@ Widget _homeBuilder(
                   SizedBox(height: 4),
 
                   Text(
-                    'Sun 9 April, 2023',
-
+                    _getFormattedDate(),
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
                   ),
                 ],
