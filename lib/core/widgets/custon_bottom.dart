@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:news/core/theme/app_colors.dart';
 
 class CustomButton extends StatelessWidget {
   final String text;
   final Icon? prefixIcon;
-    final Icon? suffix;
+  final Icon? suffix;
 
   final VoidCallback onPressed;
   final IconData? icon;
@@ -19,8 +20,9 @@ class CustomButton extends StatelessWidget {
     this.icon,
     this.color,
     this.width,
-    this.height = 56, 
-    this.prefixIcon, this.suffix,
+    this.height = 56,
+    this.prefixIcon,
+    this.suffix,
   });
 
   @override
@@ -33,10 +35,7 @@ class CustomButton extends StatelessWidget {
         style: ElevatedButton.styleFrom(
           backgroundColor: color ?? AppColors.primary,
           elevation: 0,
-          padding: const EdgeInsets.symmetric(
-            horizontal: 32,
-            vertical: 16,
-          ),
+          padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(30),
           ),
@@ -47,19 +46,15 @@ class CustomButton extends StatelessWidget {
           children: [
             Text(
               text,
-              style: const TextStyle(
+              style: TextStyle(
                 color: Colors.white,
-                fontSize: 20,
+                fontSize: 20.sp,
                 fontWeight: FontWeight.w600,
               ),
             ),
             if (icon != null) ...[
               const SizedBox(width: 8),
-              Icon(
-                icon,
-                color: Colors.white,
-                size: 20,
-              ),
+              Icon(icon, color: Colors.white, size: 20),
             ],
           ],
         ),

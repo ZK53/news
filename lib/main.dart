@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:news/core/theme/app_colors.dart';
-import 'package:news/features/article/views/article.dart';
-import 'package:news/features/home/view/home_screen.dart';
-import 'package:news/features/onboarding/view/splash_screen.dart';
+import 'package:news/features/onboarding/view/mapscreen.dart';
 
 void main() {
-  runApp(const KhabarApp());
+  runApp(ScreenUtilInit(designSize: Size(430, 932), child: KhabarApp()));
 }
 
 class KhabarApp extends StatelessWidget {
@@ -25,7 +24,7 @@ class KhabarApp extends StatelessWidget {
           primary: AppColors.primary,
         ),
       ),
-      home:  SplashScreen(),
+      home: Mapscreen(),
     );
   }
 }
