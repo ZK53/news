@@ -10,8 +10,13 @@ class HomeLoadingState extends HomeState {}
 class HomeSuccessState extends HomeState {
   final WeatherModel weather;
   final List<ArticleModel> articles;
+  final String username;
 
-  HomeSuccessState({required this.weather, required this.articles});
+  HomeSuccessState({
+    required this.weather,
+    required this.articles,
+    required this.username,
+  });
 }
 
 class HomeErrorState extends HomeState {

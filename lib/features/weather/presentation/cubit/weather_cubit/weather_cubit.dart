@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:news/features/onboarding/data/repo/onboarding_repo.dart';
 import 'package:news/features/weather/data/repo/weather_repo.dart';
 import 'package:news/features/weather/presentation/cubit/weather_cubit/weather_state.dart';
 
@@ -6,12 +7,15 @@ class WeatherCubit extends Cubit<WeatherState> {
   WeatherCubit() : super(WeatherInitState());
 
   final WeatherRepo _repo = WeatherRepo();
+  final OnboardingRepo _onboardingRepo = OnboardingRepo();
 
   Future<void> getWeather() async {
+    final username = _onboardingRepo.getUserName() ?? '';
+
     final cachedWeather = _repo.getCachedWeather();
 
     if (cachedWeather != null) {
-      emit(WeatherSuccessState(cachedWeather));
+      emit(WeatherSuccessState(cachedWeather, username));
     } else {
       emit(WeatherLoadingState());
     }
@@ -27,7 +31,7 @@ class WeatherCubit extends Cubit<WeatherState> {
       (weatherModel) async {
         await _repo.saveWeather(weatherModel);
 
-        emit(WeatherSuccessState(weatherModel));
+        emit(WeatherSuccessState(weatherModel, username));
       },
     );
   }

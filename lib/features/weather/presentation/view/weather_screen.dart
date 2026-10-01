@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:news/core/constants/image_assets.dart';
+import 'package:news/core/helper/date_time_helper.dart';
 import 'package:news/core/theme/app_colors.dart';
 import 'package:news/core/widgets/app_bottom_nav.dart';
 import 'package:news/features/book_mark/presentation/view/bookmark_screen.dart';
@@ -116,7 +117,7 @@ class _WeatherView extends StatelessWidget {
                             children: [
                               SizedBox(height: 20.h),
                               Text(
-                                'Good Morning,',
+                                '${DateTimeHelper.getGreeting()},',
                                 style: TextStyle(
                                   fontSize: 14.sp,
                                   fontWeight: FontWeight.w400,
@@ -124,7 +125,7 @@ class _WeatherView extends StatelessWidget {
                                 ),
                               ),
                               Text(
-                                'Ahmed Saber',
+                                state.username,
                                 style: TextStyle(
                                   fontSize: 14.sp,
                                   color: AppColors.grey,
@@ -132,7 +133,7 @@ class _WeatherView extends StatelessWidget {
                               ),
                               SizedBox(height: 2.h),
                               Text(
-                                '    Sun 9 April, 2023',
+                                '    ${DateTimeHelper.getFormattedDate()}',
                                 style: TextStyle(
                                   fontSize: 18.sp,
                                   fontWeight: FontWeight.w600,

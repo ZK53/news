@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:news/core/helper/date_time_helper.dart';
 import 'package:news/core/theme/app_colors.dart';
 import 'package:news/core/widgets/app_bottom_nav.dart';
 import 'package:news/features/article/data/models/article_model.dart';
@@ -78,30 +79,6 @@ class _HomeView extends StatelessWidget {
   }
 }
 
-String _getFormattedDate() {
-  final now = DateTime.now();
-
-  const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-
-  const months = [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December',
-  ];
-
-  return '${days[now.weekday - 1]} ${now.day} '
-      '${months[now.month - 1]}, ${now.year}';
-}
-
 Widget _homeBuilder(
   BuildContext context,
   HomeSuccessState state,
@@ -128,7 +105,7 @@ Widget _homeBuilder(
 
                 children: [
                   Text(
-                    'Good Morning,\nAhmed Saber',
+                    '${DateTimeHelper.getGreeting()},\n${state.username}',
 
                     style: TextStyle(
                       fontSize: 14,
@@ -140,7 +117,7 @@ Widget _homeBuilder(
                   SizedBox(height: 4),
 
                   Text(
-                    _getFormattedDate(),
+                    DateTimeHelper.getFormattedDate(),
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
                   ),
                 ],
