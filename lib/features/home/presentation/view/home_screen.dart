@@ -56,195 +56,204 @@ Widget _homeBuilder(
   HomeSuccessState state,
   Function openArticle,
 ) {
-  return Scaffold(
-    backgroundColor: Colors.white,
+  return RefreshIndicator(
+    onRefresh: () => context.read<HomeCubit>().getHomeData(),
+    child: Scaffold(
+      backgroundColor: Colors.white,
 
-    body: Column(
-      children: [
-        Container(
-          width: double.infinity,
-          color: const Color(0xFFE8ECF8),
+      body: Column(
+        children: [
+          Container(
+            width: double.infinity,
+            color: const Color(0xFFE8ECF8),
 
-          padding: const EdgeInsets.fromLTRB(24, 50, 24, 16),
+            padding: const EdgeInsets.fromLTRB(24, 50, 24, 16),
 
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
 
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
 
-                children: [
-                  Text(
-                    '${DateTimeHelper.getGreeting()},\n${state.username}',
+                  children: [
+                    Text(
+                      '${DateTimeHelper.getGreeting()},\n${state.username}',
 
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                      color: Colors.grey,
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                        color: Colors.grey,
+                      ),
                     ),
-                  ),
 
-                  SizedBox(height: 4),
+                    SizedBox(height: 4),
 
-                  Text(
-                    DateTimeHelper.getFormattedDate(),
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
-                  ),
-                ],
-              ),
+                    Text(
+                      DateTimeHelper.getFormattedDate(),
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ],
+                ),
 
-              Text(
-                '${state.weather.mainDescription} '
-                '${state.weather.temperature.round()}°C',
-              ),
-            ],
+                Text(
+                  '${state.weather.mainDescription} '
+                  '${state.weather.temperature.round()}°C',
+                ),
+              ],
+            ),
           ),
-        ),
 
-        Expanded(
-          child: ListView(
-            padding: const EdgeInsets.all(24),
-            children: [
-              SizedBox(
-                height: 206,
-                child: PageView.builder(
-                  itemCount: state.articles.length,
-                  itemBuilder: (context, index) {
-                    final article = state.articles[index];
+          Expanded(
+            child: ListView(
+              padding: const EdgeInsets.all(24),
+              children: [
+                SizedBox(
+                  height: 206,
+                  child: PageView.builder(
+                    itemCount: state.articles.length,
+                    itemBuilder: (context, index) {
+                      final article = state.articles[index];
 
-                    return GestureDetector(
-                      onTap: () => openArticle(context, article),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(12),
-                        child: Stack(
-                          fit: StackFit.expand,
-                          children: [
-                            _buildArticleImage(article.imageUrl),
-                            Align(
-                              alignment: Alignment.bottomCenter,
-                              child: Container(
-                                color: Colors.black54,
-                                padding: const EdgeInsets.all(12),
-                                child: Row(
-                                  children: [
-                                    Expanded(
-                                      child: Text(
-                                        article.title,
-                                        maxLines: 2,
-                                        overflow: TextOverflow.ellipsis,
+                      return GestureDetector(
+                        onTap: () => openArticle(context, article),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(12),
+                          child: Stack(
+                            fit: StackFit.expand,
+                            children: [
+                              _buildArticleImage(article.imageUrl),
+                              Align(
+                                alignment: Alignment.bottomCenter,
+                                child: Container(
+                                  color: Colors.black54,
+                                  padding: const EdgeInsets.all(12),
+                                  child: Row(
+                                    children: [
+                                      Expanded(
+                                        child: Text(
+                                          article.title,
+                                          maxLines: 2,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: const TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                      ),
+                                      const SizedBox(width: 8),
+                                      Text(
+                                        article.author ?? '',
                                         style: const TextStyle(
                                           fontSize: 14,
-                                          fontWeight: FontWeight.w500,
+                                          fontWeight: FontWeight.w400,
                                           color: Colors.white,
                                         ),
                                       ),
-                                    ),
-                                    const SizedBox(width: 8),
-                                    Text(
-                                      article.author ?? '',
-                                      style: const TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w400,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
-                    );
-                  },
-                ),
-              ),
-              const SizedBox(height: 24),
-              const Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Most Popular',
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
+                      );
+                    },
                   ),
-                  Text(
-                    'See More',
-                    style: TextStyle(
-                      color: AppColors.primary,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
+                ),
+                const SizedBox(height: 24),
+                const Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Most Popular',
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 16),
-              SizedBox(
-                height: 270,
-
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-
-                  itemCount: state.articles.length,
-
-                  itemBuilder: (context, index) {
-                    final article = state.articles[index];
-
-                    return GestureDetector(
-                      onTap: () => openArticle(context, article),
-
-                      child: Container(
-                        width: 180,
-
-                        margin: const EdgeInsets.only(right: 14),
-
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-
-                          children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(8),
-
-                              child: _buildArticleImage(article.imageUrl),
-                            ),
-
-                            const SizedBox(height: 10),
-
-                            Text(
-                              article.title,
-
-                              maxLines: 2,
-
-                              overflow: TextOverflow.ellipsis,
-
-                              style: const TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-
-                            const SizedBox(height: 4),
-
-                            Text(
-                              article.sourceName ?? 'News',
-
-                              style: const TextStyle(
-                                color: Colors.grey,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                          ],
-                        ),
+                    Text(
+                      'See More',
+                      style: TextStyle(
+                        color: AppColors.primary,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
                       ),
-                    );
-                  },
+                    ),
+                  ],
                 ),
-              ),
-            ],
+                const SizedBox(height: 16),
+                SizedBox(
+                  height: 270,
+
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+
+                    itemCount: state.articles.length,
+
+                    itemBuilder: (context, index) {
+                      final article = state.articles[index];
+
+                      return GestureDetector(
+                        onTap: () => openArticle(context, article),
+
+                        child: Container(
+                          width: 180,
+
+                          margin: const EdgeInsets.only(right: 14),
+
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+
+                            children: [
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(8),
+
+                                child: _buildArticleImage(article.imageUrl),
+                              ),
+
+                              const SizedBox(height: 10),
+
+                              Text(
+                                article.title,
+
+                                maxLines: 2,
+
+                                overflow: TextOverflow.ellipsis,
+
+                                style: const TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+
+                              const SizedBox(height: 4),
+
+                              Text(
+                                article.sourceName ?? 'News',
+
+                                style: const TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ],
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     ),
   );
 }

@@ -55,146 +55,153 @@ class _ExploreViewState extends State<_ExploreView> {
         if (state is ArticleSuccessState) {
           final articles = state.articles;
 
-          return Scaffold(
-            body: Column(
-              children: [
-                Container(
-                  color: const Color(0xFFE8ECF8),
-                  child: SafeArea(
-                    bottom: false,
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(24, 16, 16, 12),
-                          child: Row(
-                            children: [
-                              const Expanded(
-                                child: Text(
-                                  'Explore',
-                                  style: TextStyle(
-                                    fontSize: 32,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                              ),
-                              IconButton(
-                                icon: const Icon(Icons.search),
-                                onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (_) => const SearchScreen(),
-                                    ),
-                                  );
-                                },
-                              ),
-                            ],
-                          ),
-                        ),
-
-                        SizedBox(
-                          height: 34,
-                          child: ListView.separated(
-                            scrollDirection: Axis.horizontal,
-                            padding: const EdgeInsets.symmetric(horizontal: 24),
-                            itemCount: categories.length,
-                            separatorBuilder: (_, _) =>
-                                const SizedBox(width: 8),
-                            itemBuilder: (_, i) {
-                              final category = categories[i];
-                              final selected = category == _selected;
-
-                              return GestureDetector(
-                                onTap: () {
-                                  setState(() {
-                                    _selected = category;
-                                  });
-
-                                  context.read<ArticleCubit>().getTopHeadlines(
-                                    category: category.toLowerCase(),
-                                  );
-                                },
-                                child: Container(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 16,
-                                  ),
-                                  alignment: Alignment.center,
-                                  decoration: BoxDecoration(
-                                    color: selected
-                                        ? const Color(0xFFE3E8F7)
-                                        : Colors.white,
-                                    borderRadius: BorderRadius.circular(20),
-                                    border: Border.all(
-                                      color: selected
-                                          ? const Color(0xFFE3E8F7)
-                                          : const Color(0xFFE5E7EB),
-                                    ),
-                                  ),
+          return RefreshIndicator(
+            onRefresh: () => context.read<ArticleCubit>().getTopHeadlines(),
+            child: Scaffold(
+              body: Column(
+                children: [
+                  Container(
+                    color: const Color(0xFFE8ECF8),
+                    child: SafeArea(
+                      bottom: false,
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(24, 16, 16, 12),
+                            child: Row(
+                              children: [
+                                const Expanded(
                                   child: Text(
-                                    category,
+                                    'Explore',
                                     style: TextStyle(
-                                      fontSize: 13,
-                                      fontWeight: selected
-                                          ? FontWeight.w600
-                                          : FontWeight.w500,
-                                    ),
-                                  ),
-                                ),
-                              );
-                            },
-                          ),
-                        ),
-
-                        const SizedBox(height: 14),
-                      ],
-                    ),
-                  ),
-                ),
-
-                Expanded(
-                  child: articles.isEmpty
-                      ? const Center(child: Text('No articles'))
-                      : ListView(
-                          padding: const EdgeInsets.fromLTRB(24, 20, 24, 24),
-                          children: [
-                            InkWell(
-                              onTap: () =>
-                                  _openArticle(context, articles.first),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  _img(
-                                    articles.first.imageUrl ?? '',
-                                    w: 366,
-                                    h: 208,
-                                    r: 8,
-                                  ),
-
-                                  const SizedBox(height: 16),
-
-                                  Text(
-                                    articles.first.title,
-                                    style: const TextStyle(
-                                      fontSize: 24,
+                                      fontSize: 32,
                                       fontWeight: FontWeight.w600,
                                     ),
                                   ),
-
-                                  const SizedBox(height: 10),
-
-                                  _articleAuthor(articles.first),
-                                ],
-                              ),
+                                ),
+                                IconButton(
+                                  icon: const Icon(Icons.search),
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (_) => const SearchScreen(),
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ],
                             ),
+                          ),
 
-                            const SizedBox(height: 14),
+                          SizedBox(
+                            height: 34,
+                            child: ListView.separated(
+                              scrollDirection: Axis.horizontal,
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 24,
+                              ),
+                              itemCount: categories.length,
+                              separatorBuilder: (_, _) =>
+                                  const SizedBox(width: 8),
+                              itemBuilder: (_, i) {
+                                final category = categories[i];
+                                final selected = category == _selected;
 
-                            for (final article in articles.skip(1))
-                              _articleTile(article),
-                          ],
-                        ),
-                ),
-              ],
+                                return GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      _selected = category;
+                                    });
+
+                                    context
+                                        .read<ArticleCubit>()
+                                        .getTopHeadlines(
+                                          category: category.toLowerCase(),
+                                        );
+                                  },
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 16,
+                                    ),
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                      color: selected
+                                          ? const Color(0xFFE3E8F7)
+                                          : Colors.white,
+                                      borderRadius: BorderRadius.circular(20),
+                                      border: Border.all(
+                                        color: selected
+                                            ? const Color(0xFFE3E8F7)
+                                            : const Color(0xFFE5E7EB),
+                                      ),
+                                    ),
+                                    child: Text(
+                                      category,
+                                      style: TextStyle(
+                                        fontSize: 13,
+                                        fontWeight: selected
+                                            ? FontWeight.w600
+                                            : FontWeight.w500,
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+
+                          const SizedBox(height: 14),
+                        ],
+                      ),
+                    ),
+                  ),
+
+                  Expanded(
+                    child: articles.isEmpty
+                        ? const Center(child: Text('No articles'))
+                        : ListView(
+                            padding: const EdgeInsets.fromLTRB(24, 20, 24, 24),
+                            children: [
+                              InkWell(
+                                onTap: () =>
+                                    _openArticle(context, articles.first),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    _img(
+                                      articles.first.imageUrl ?? '',
+                                      w: 366,
+                                      h: 208,
+                                      r: 8,
+                                    ),
+
+                                    const SizedBox(height: 16),
+
+                                    Text(
+                                      articles.first.title,
+                                      style: const TextStyle(
+                                        fontSize: 24,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+
+                                    const SizedBox(height: 10),
+
+                                    _articleAuthor(articles.first),
+                                  ],
+                                ),
+                              ),
+
+                              const SizedBox(height: 14),
+
+                              for (final article in articles.skip(1))
+                                _articleTile(article),
+                            ],
+                          ),
+                  ),
+                ],
+              ),
             ),
           );
         }

@@ -74,28 +74,34 @@ class _BookmarkView extends StatelessWidget {
                     );
                   }
 
-                  return ListView.separated(
-                    padding: const EdgeInsets.fromLTRB(20, 20, 20, 100),
-                    itemCount: bookmarks.length,
-                    separatorBuilder: (_, _) => const SizedBox(height: 16),
-                    itemBuilder: (context, index) {
-                      final article = bookmarks[index];
+                  return RefreshIndicator(
+                    onRefresh: () =>
+                        context.read<BookmarkCubit>().getBookmarks(),
+                    child: ListView.separated(
+                      padding: const EdgeInsets.fromLTRB(20, 20, 20, 100),
+                      itemCount: bookmarks.length,
+                      separatorBuilder: (_, _) => const SizedBox(height: 16),
+                      itemBuilder: (context, index) {
+                        final article = bookmarks[index];
 
-                      return _BookmarkTile(
-                        article: article,
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (_) => ArticleScreen(article: article),
-                            ),
-                          );
-                        },
-                        onDelete: () {
-                          context.read<BookmarkCubit>().toggleBookmark(article);
-                        },
-                      );
-                    },
+                        return _BookmarkTile(
+                          article: article,
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => ArticleScreen(article: article),
+                              ),
+                            );
+                          },
+                          onDelete: () {
+                            context.read<BookmarkCubit>().toggleBookmark(
+                              article,
+                            );
+                          },
+                        );
+                      },
+                    ),
                   );
                 }
 
