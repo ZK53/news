@@ -29,7 +29,8 @@ class Mapscreen extends StatelessWidget {
                   borderRadius: BorderRadius.circular(12.r),
                 ),
                 child: CustomSearchField(
-                  hintText: "Ahmed Saber",
+                  hintText: "Username",
+                  controller: context.read<MapCubit>().usernameController,
                   prefixIcon: Icon(Icons.person_outlined),
                 ),
               ),

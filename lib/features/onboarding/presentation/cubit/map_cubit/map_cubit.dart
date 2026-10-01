@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:news/features/onboarding/data/repo/onboarding_repo.dart';
@@ -7,6 +8,8 @@ class MapCubit extends Cubit<MapState> {
   MapCubit() : super(MapInitState());
 
   final OnboardingRepo _repo = OnboardingRepo();
+
+  final TextEditingController usernameController = TextEditingController();
 
   void selectLocation(LatLng location) {
     emit(MapLocationSelectedState(location));
@@ -38,6 +41,7 @@ class MapCubit extends Cubit<MapState> {
       final location = (state as MapLocationSelectedState).location;
 
       await _repo.saveLocation(location);
+      await _repo.saveUserName(usernameController.text);
       await _repo.completeOnboarding();
     } catch (e) {
       emit(MapErrorState(e.toString()));
