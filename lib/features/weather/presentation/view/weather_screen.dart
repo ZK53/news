@@ -243,8 +243,11 @@ class _WeatherView extends StatelessWidget {
                                   MaterialPageRoute(
                                     builder: (_) => BlocProvider(
                                       create: (_) =>
-                                          MapCubit()..initializeLocation(),
-                                      child: Mapscreen(),
+                                          MapCubit(isChangingLocation: true)
+                                            ..initializeLocation(),
+                                      child: Mapscreen(
+                                        isChangingLocation: true,
+                                      ),
                                     ),
                                   ),
                                 );

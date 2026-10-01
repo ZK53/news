@@ -8,10 +8,13 @@ class MapLoadingState extends MapState {}
 
 class MapLocationSelectedState extends MapState {
   final LatLng location;
-  MapLocationSelectedState(this.location);
+  final bool isChangingLocation;
+
+  MapLocationSelectedState(this.location, {this.isChangingLocation = false});
 }
 
 class MapErrorState extends MapState {
   final String errorMsg;
+
   MapErrorState(this.errorMsg);
 }

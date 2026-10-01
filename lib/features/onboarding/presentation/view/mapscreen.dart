@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:news/core/cache/cache_helper.dart';
-import 'package:news/core/cache/cache_keys.dart';
 import 'package:news/core/widgets/custom_search_field.dart';
 import 'package:news/core/widgets/custon_bottom.dart';
 import 'package:news/features/home/presentation/view/home_screen.dart';
@@ -11,7 +9,9 @@ import 'package:news/features/onboarding/presentation/cubit/map_cubit/map_cubit.
 import 'package:news/features/onboarding/presentation/cubit/map_cubit/map_state.dart';
 
 class Mapscreen extends StatelessWidget {
-  const Mapscreen({super.key});
+  final bool isChangingLocation;
+
+  const Mapscreen({super.key, this.isChangingLocation = false});
 
   @override
   Widget build(BuildContext context) {
@@ -70,14 +70,12 @@ class Mapscreen extends StatelessWidget {
                         child: Padding(
                           padding: EdgeInsets.only(bottom: 50.h),
                           child: CustomButton(
-                            text: 'Get Started',
+                            text: state.isChangingLocation
+                                ? 'Set Location'
+                                : 'Get Started',
                             width: 180,
                             onPressed: () async {
                               await context.read<MapCubit>().confirmLocation();
-                              await CacheHelper.setValue(
-                                key: CacheKeys.onboardingCompleted,
-                                value: true,
-                              );
 
                               if (!context.mounted) return;
 
