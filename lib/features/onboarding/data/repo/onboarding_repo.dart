@@ -37,4 +37,12 @@ class OnboardingRepo {
   Future<void> completeOnboarding() async {
     await CacheHelper.setValue(key: CacheKeys.onboardingCompleted, value: true);
   }
+
+  Future<void> saveUserName(String name) async {
+    await CacheHelper.setValue(key: CacheKeys.userName, value: name);
+  }
+
+  String? getUserName() {
+    return CacheHelper.getValue(key: CacheKeys.userName) as String?;
+  }
 }
