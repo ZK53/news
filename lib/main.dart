@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:news/core/cache/cache_helper.dart';
 import 'package:news/core/theme/app_colors.dart';
-import 'package:news/features/onboarding/view/mapscreen.dart';
+import 'package:news/features/onboarding/presentation/cubit/splash_cubit/splash_cubit.dart';
+import 'package:news/features/onboarding/presentation/view/splash_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,7 +29,10 @@ class KhabarApp extends StatelessWidget {
           primary: AppColors.primary,
         ),
       ),
-      home: Mapscreen(),
+      home: BlocProvider(
+        create: (_) => SplashCubit()..checkOnboarding(),
+        child: SplashScreen(),
+      ),
     );
   }
 }
