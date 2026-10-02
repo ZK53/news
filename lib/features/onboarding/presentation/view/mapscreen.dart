@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:news/core/widgets/custom_search_field.dart';
 import 'package:news/core/widgets/custon_bottom.dart';
-import 'package:news/features/home/presentation/view/home_screen.dart';
+import 'package:news/core/widgets/main_screen.dart';
 import 'package:news/features/onboarding/presentation/cubit/map_cubit/map_cubit.dart';
 import 'package:news/features/onboarding/presentation/cubit/map_cubit/map_state.dart';
 
@@ -82,7 +82,7 @@ class Mapscreen extends StatelessWidget {
                               Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (_) => const HomeScreen(),
+                                  builder: (_) => const MainScreen(),
                                 ),
                               );
                             },
