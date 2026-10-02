@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:news/core/constants/image_assets.dart';
 import 'package:news/core/theme/app_colors.dart';
 import 'package:news/core/widgets/custon_bottom.dart';
@@ -73,7 +74,7 @@ class WelcomeScreen extends StatelessWidget {
                       height: 1.5,
                     ),
                   ),
-                  const SizedBox(height: 26),
+                  SizedBox(height: 24.h),
                   CustomButton(
                     text: 'Explore',
                     icon: Icons.arrow_forward,
