@@ -24,60 +24,67 @@ class _BookmarkView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          Container(
-            height: 123,
-            width: double.infinity,
-            color: AppColors.headerBg,
-            child: Padding(
-              padding: const EdgeInsets.only(bottom: 10),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  const Text(
-                    'Bookmark',
-                    style: TextStyle(
-                      fontSize: 32,
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.black,
+      body: RefreshIndicator(
+        onRefresh: () => context.read<BookmarkCubit>().getBookmarks(),
+        child: Column(
+          children: [
+            Container(
+              height: 123,
+              width: double.infinity,
+              color: AppColors.headerBg,
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 10),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    const Text(
+                      'Bookmark',
+                      style: TextStyle(
+                        fontSize: 32,
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.black,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
-          ),
 
-          Expanded(
-            child: BlocBuilder<BookmarkCubit, BookmarkState>(
-              builder: (context, state) {
-                if (state is BookmarkLoadingState) {
-                  return const Center(child: CircularProgressIndicator());
-                }
-
-                if (state is BookmarkErrorState) {
-                  return Center(child: Text(state.errorMsg));
-                }
-
-                if (state is BookmarkLoadedState) {
-                  final bookmarks = state.bookmarks;
-
-                  if (bookmarks.isEmpty) {
-                    return const Center(
-                      child: Text(
-                        'No Bookmarks Yet',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    );
+            Expanded(
+              child: BlocBuilder<BookmarkCubit, BookmarkState>(
+                builder: (context, state) {
+                  if (state is BookmarkLoadingState) {
+                    return const Center(child: CircularProgressIndicator());
                   }
 
-                  return RefreshIndicator(
-                    onRefresh: () =>
-                        context.read<BookmarkCubit>().getBookmarks(),
-                    child: ListView.separated(
+                  if (state is BookmarkErrorState) {
+                    return Center(child: Text(state.errorMsg));
+                  }
+
+                  if (state is BookmarkLoadedState) {
+                    final bookmarks = state.bookmarks;
+
+                    if (bookmarks.isEmpty) {
+                      return ListView(
+                        physics: const AlwaysScrollableScrollPhysics(),
+                        children: const [
+                          SizedBox(
+                            height: 300,
+                            child: Center(
+                              child: Text(
+                                'No Bookmarks Yet',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      );
+                    }
+
+                    return ListView.separated(
                       padding: const EdgeInsets.fromLTRB(20, 20, 20, 100),
                       itemCount: bookmarks.length,
                       separatorBuilder: (_, _) => const SizedBox(height: 16),
@@ -101,15 +108,15 @@ class _BookmarkView extends StatelessWidget {
                           },
                         );
                       },
-                    ),
-                  );
-                }
+                    );
+                  }
 
-                return const Center(child: CircularProgressIndicator());
-              },
+                  return const Center(child: CircularProgressIndicator());
+                },
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
